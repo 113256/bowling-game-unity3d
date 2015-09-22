@@ -19,7 +19,7 @@ public class CameraControl : MonoBehaviour {
 		if (ball.transform.position.z <= pins.transform.position.z) {
 			this.transform.position = ball.transform.position + offset;
 		} else {
-			print ("stop camera");
+			//print ("stop camera");
 		}
 	}
 }

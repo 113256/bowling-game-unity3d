@@ -4,13 +4,15 @@ using System.Collections;
 public class Ball : MonoBehaviour {
 
 	private Rigidbody ballRigidBody;
-	public float launchSpeed;
 	private AudioSource audioSource;
 	private bool rolling = false;
 
 	// Use this for initialization
 	void Start () {
 		ballRigidBody = this.GetComponent<Rigidbody> ();
+		//disable gravity before launching ball so it can float in the air
+		ballRigidBody.useGravity = false;
+
 		audioSource = this.GetComponent<AudioSource> ();
 
 
@@ -18,18 +20,21 @@ public class Ball : MonoBehaviour {
 
 	}
 
-	public void Launch(){
-		ballRigidBody.velocity = new Vector3(0, 1f, launchSpeed);
+	public void Launch(Vector3 velocity){
+		ballRigidBody.useGravity = true;
+		ballRigidBody.velocity = velocity;
 		audioSource.Play ();
 		rolling = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+		//click to launch
+		/*if (Input.GetMouseButtonDown(0)) {
 			if(!rolling){
-			Launch ();
+				Launch (launchSpeed);
 			}
+		 */
 		}
 	}
-}
+
