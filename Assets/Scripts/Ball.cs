@@ -16,8 +16,15 @@ public class Ball : MonoBehaviour {
 		audioSource = this.GetComponent<AudioSource> ();
 
 
+	}
 
+	public void moveStart(float amount){
+		if (!rolling) {
 
+			//this.transform.position = new Vector3 (this.transform.position.x + amount, this.transform.position.y, this.transform.position.z);
+			transform.Translate(new Vector3(amount, 0, 0));
+			transform.position = new Vector3( Mathf.Clamp(transform.position.x, -40, 40), transform.position.y, transform.position.z);
+		}
 	}
 
 	public void Launch(Vector3 velocity){
@@ -29,6 +36,7 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		//click to launch
 		/*if (Input.GetMouseButtonDown(0)) {
 			if(!rolling){
