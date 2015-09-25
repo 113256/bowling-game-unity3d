@@ -12,7 +12,7 @@ public class Pin : MonoBehaviour {
 		float tiltInX = Mathf.Abs(rotationInEuler.x);
 		float tiltInZ = Mathf.Abs (rotationInEuler.z);
 
-		if (tiltInX < standingThreshold && tiltInZ < standingThreshold) {
+		if (tiltInX < standingThreshold || tiltInZ < standingThreshold) {
 			return true;
 		} else {
 			return false;
@@ -21,11 +21,11 @@ public class Pin : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		isStanding ();
+		//isStanding ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		isStanding ();
+		//isStanding ();
 	}
 }
