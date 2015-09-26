@@ -23,7 +23,7 @@ public class DragLaunch : MonoBehaviour {
 	public void DragStart(){
 		//capture time and position of drag start 
 		dragStart = Input.mousePosition;
-		print (dragStart.x + " " + dragStart.y);
+		//print (dragStart.x + " " + dragStart.y);
 		startTime = Time.time; //Time.time = time since game started running
 	}
 
@@ -31,7 +31,7 @@ public class DragLaunch : MonoBehaviour {
 		//launch the ball
 		dragEnd = Input.mousePosition;
 		endTime = Time.time;
-		print (dragEnd.x + " " + dragEnd.y);
+		//print (dragEnd.x + " " + dragEnd.y);
 		float dragDuration = endTime - startTime;
 		/*float dragLength = Mathf.Pow((dragEnd.y - dragStart.y),2) +  Mathf.Pow((dragEnd.x - dragStart.x),2);
 		print ("duration " + dragDuration);

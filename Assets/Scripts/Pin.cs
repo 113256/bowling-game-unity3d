@@ -4,6 +4,7 @@ using System.Collections;
 public class Pin : MonoBehaviour {
 
 	public float standingThreshold = 3f;
+	private Rigidbody myrigidbody;
 
 	//return true if pins tranform rotated less than threshold from vertical
 	public bool isStanding(){
@@ -19,9 +20,14 @@ public class Pin : MonoBehaviour {
 		}
 	}
 
+
+	void OnTriggerExit(Collider collider){
+		Destroy (gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
-		//isStanding ();
+			myrigidbody = gameObject.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
