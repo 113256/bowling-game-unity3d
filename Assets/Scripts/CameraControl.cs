@@ -15,11 +15,13 @@ public class CameraControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//if ball reaches the pins stop the camera from following it
-		if (ball.transform.position.z <= pins.transform.position.z) {
-			this.transform.position = ball.transform.position + offset;
-		} else {
-			//print ("stop camera");
+		if (pins) {
+			//if ball reaches the pins stop the camera from following it
+			if (ball.transform.position.z <= pins.transform.position.z) {
+				this.transform.position = ball.transform.position + offset;
+			} else {
+				//print ("stop camera");
+			}
 		}
 	}
 }

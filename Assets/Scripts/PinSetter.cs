@@ -10,21 +10,79 @@ public class PinSetter : MonoBehaviour {
 	//private bool AllSettled = true;
 	private float lastChangeTime;
 
+	public Animator anim; 
+
 	//standing count = no. standing pins
 	//if the last standing count == current standing count after 3 seconds, all pins have settled.
 	private int lastStandingCount = -1; //-1 because nothing has fallen over yet
 
+	public GameObject fullPinSetup;
+
+
+
+	GameObject PinsParent;
+
 	// Use this for initialization
 	void Start () {
-	
+		PinsParent = GameObject.Find ("Pins");
+		anim = GetComponent<Animator> ();
 	}
-	
+
+	void raisePins(){
+		//raising = true;
+		foreach (Pin pin in GameObject.FindObjectsOfType<Pin>()) {
+			if(pin.isStanding()){
+				pin.anim.SetTrigger("Raised");}
+			}
+
+	}
+
+	void finishedSwipe(){
+		anim.SetTrigger ("FinishedSwipe");
+	}
+
+	//used for reset methods to delete all pins before renewing
+	void deletePins(){
+		//GameObject pinsObject = GameObject.Find ("Pins");
+		//Destroy (pinsObject);
+		foreach (Pin pin in GameObject.FindObjectsOfType<Pin>()) {
+			Destroy(pin);
+		}
+	}
+
+	void renewPins(){
+		print ("renewing");
+		GameObject pins = Instantiate (fullPinSetup) as GameObject;
+		pins.transform.name = "Pins";
+		Pin[] allChildPins = pins.GetComponentsInChildren<Pin> ();
+		//Pin[] allChildPins = fullPinSetup.GetComponentsInChildren<Pin> ();
+		foreach(Pin pin in allChildPins){
+			pin.transform.parent = PinsParent.transform;
+			//attach animator again as there will be an error saying variable not attached...
+			pin.attachAnimatorAndRigidbody();
+			pin.myrigidbody.isKinematic = true;
+			pin.anim.SetTrigger("RenewFall");
+
+		}
+		//Destroy (pins);
+
+	}
+
+	void lowerPins(){
+		foreach (Pin pin in GameObject.FindObjectsOfType<Pin>()) {
+			pin.anim.SetTrigger("Lowered");
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (ballEntered) {
 			checkStanding ();
 		}
+
 		standingpinsText.text = standingPins.ToString();
+	
+
 	}
 
 	void OnTriggerEnter(Collider collider){
