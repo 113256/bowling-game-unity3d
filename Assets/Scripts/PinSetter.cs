@@ -22,10 +22,15 @@ public class PinSetter : MonoBehaviour {
 
 	GameObject PinsParent;
 
+
+	private ActionMaster actionMaster;
+	//public enum Action{Tidy, Reset, EndTurn, EndGame};
+
 	// Use this for initialization
 	void Start () {
 		PinsParent = GameObject.Find ("Pins");
 		anim = GetComponent<Animator> ();
+		actionMaster = GameObject.FindObjectOfType<ActionMaster> ();
 	}
 
 	void raisePins(){
@@ -53,7 +58,7 @@ public class PinSetter : MonoBehaviour {
 	void renewPins(){
 		print ("renewing");
 		GameObject pins = Instantiate (fullPinSetup) as GameObject;
-		pins.transform.name = "Pins";
+		//pins.transform.name = "Pins";
 		Pin[] allChildPins = pins.GetComponentsInChildren<Pin> ();
 		//Pin[] allChildPins = fullPinSetup.GetComponentsInChildren<Pin> ();
 		foreach(Pin pin in allChildPins){
@@ -94,6 +99,15 @@ public class PinSetter : MonoBehaviour {
 
 	private void pinsHaveSettled(){
 		standingpinsText.color = Color.green;
+
+		ActionMaster.Action pinSetterAction = actionMaster.Bowl (10 - standingPins);
+
+		if (pinSetterAction .Equals( ActionMaster.Action.Reset)) {
+			anim.SetTrigger("ResetTrigger");
+		} else if (pinSetterAction .Equals( ActionMaster.Action.Tidy)) {
+			anim.SetTrigger("TidyTrigger");
+		} 
+
 	}
 
 	void checkStanding(){
