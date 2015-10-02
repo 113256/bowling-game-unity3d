@@ -7,7 +7,7 @@ public class ActionMaster : MonoBehaviour {
 	//if player gets a strike they get an extra turn
 	public enum Action{Tidy, Reset, EndTurn, EndGame};
 	//for player
-	public enum Chance{firstChance, secondChance};
+	//public enum Chance{firstChance, secondChance};
 
 	private PinSetter pinsetter;
 
@@ -15,15 +15,18 @@ public class ActionMaster : MonoBehaviour {
 
 	public Action Bowl(int pins){
 		Player currentPlayer = player1;
-
+		print ("bowl");
 		if (pins < 10 && pins >= 0) {
-			if(currentPlayer.getChance().Equals( Chance.firstChance)){
+			if(currentPlayer.getChance().Equals( Player.Chance.firstChance)){
+				print ("first chance");
 				currentPlayer.addScore(pins);
 				//tidy and player gets second chance
 				currentPlayer.setChance(2);
 				return Action.Tidy;
-			} else if (currentPlayer.getChance().Equals( Chance.secondChance)){
+			} else if (currentPlayer.getChance().Equals( Player.Chance.secondChance)){
+				print ("second chance");
 				currentPlayer.addScore(pins);
+				currentPlayer.setChance(1);
 				if(pinsetter.standingPins == 0){
 					print ("SPARE");
 				}
@@ -32,7 +35,7 @@ public class ActionMaster : MonoBehaviour {
 		} 
 
 		if (pins == 10) {
-			if(currentPlayer.getChance().Equals(Chance.firstChance)){
+			if(currentPlayer.getChance().Equals(Player.Chance.firstChance)){
 				print ("STRIKE");
 				currentPlayer.setScore(10);
 				return Action.Reset;

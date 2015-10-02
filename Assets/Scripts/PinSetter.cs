@@ -6,7 +6,7 @@ public class PinSetter : MonoBehaviour {
 
 	public int standingPins = 10;
 	public Text standingpinsText;
-	private bool ballEntered = false;
+	public bool ballEntered = false;
 	//private bool AllSettled = true;
 	private float lastChangeTime;
 
@@ -24,13 +24,16 @@ public class PinSetter : MonoBehaviour {
 
 
 	private ActionMaster actionMaster;
-	//public enum Action{Tidy, Reset, EndTurn, EndGame};
+	private Ball ball;
+	//public bool pinsSettled = false;
+
 
 	// Use this for initialization
 	void Start () {
 		PinsParent = GameObject.Find ("Pins");
 		anim = GetComponent<Animator> ();
 		actionMaster = GameObject.FindObjectOfType<ActionMaster> ();
+		ball = GameObject.FindObjectOfType<Ball> ();
 	}
 
 	void raisePins(){
@@ -81,7 +84,7 @@ public class PinSetter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (ballEntered) {
+		if (ballEntered ) {
 			checkStanding ();
 		}
 
@@ -98,6 +101,7 @@ public class PinSetter : MonoBehaviour {
 	}
 
 	private void pinsHaveSettled(){
+		//pinsSettled = true;
 		standingpinsText.color = Color.green;
 
 		ActionMaster.Action pinSetterAction = actionMaster.Bowl (10 - standingPins);
@@ -107,6 +111,9 @@ public class PinSetter : MonoBehaviour {
 		} else if (pinSetterAction .Equals( ActionMaster.Action.Tidy)) {
 			anim.SetTrigger("TidyTrigger");
 		} 
+
+		ball.ResetBall ();
+
 
 	}
 
