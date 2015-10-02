@@ -14,7 +14,7 @@ public class PinSetter : MonoBehaviour {
 
 	//standing count = no. standing pins
 	//if the last standing count == current standing count after 3 seconds, all pins have settled.
-	private int lastStandingCount = -1; //-1 because nothing has fallen over yet
+	public int lastStandingCount = -1; //-1 because nothing has fallen over yet
 
 	public GameObject fullPinSetup;
 
@@ -25,7 +25,7 @@ public class PinSetter : MonoBehaviour {
 
 	private ActionMaster actionMaster;
 	private Ball ball;
-	//public bool pinsSettled = false;
+	public bool pinsSettled = false;
 
 
 	// Use this for initialization
@@ -84,7 +84,7 @@ public class PinSetter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (ballEntered ) {
+		if (ballEntered && !pinsSettled ) {
 			checkStanding ();
 		}
 
@@ -101,7 +101,7 @@ public class PinSetter : MonoBehaviour {
 	}
 
 	private void pinsHaveSettled(){
-		//pinsSettled = true;
+		pinsSettled = true;
 		standingpinsText.color = Color.green;
 
 		ActionMaster.Action pinSetterAction = actionMaster.Bowl (10 - standingPins);

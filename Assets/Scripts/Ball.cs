@@ -27,8 +27,9 @@ public class Ball : MonoBehaviour {
 		transform.position = defaultPos;
 		ballRigidBody.velocity = Vector3.zero;
 		ballRigidBody.angularVelocity = Vector3.zero;
-		//pinSetter.pinsSettled = false;
+		pinSetter.pinsSettled = false;
 		pinSetter.ballEntered = false;
+		pinSetter.lastStandingCount = -1;
 	}
 	
 
