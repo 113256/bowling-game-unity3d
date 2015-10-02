@@ -23,11 +23,17 @@ public class ActionMaster : MonoBehaviour {
 	private int secondChanceScore;
 
 	private Player currentPlayer;
+
 	public Text actionText;
 	private string actionString;
 
-	public void setActionString(string string){
-		actionString = string;
+	public Text playerText;
+	private string playerString;
+
+	private Ball ball;
+
+	public void setActionString(string astring){
+		actionString = astring;
 	}
 
 	public Action Bowl(int pins){
@@ -76,6 +82,9 @@ public class ActionMaster : MonoBehaviour {
 		queue.Enqueue (player3);
 
 		pinsetter = GameObject.FindObjectOfType<PinSetter>();
+		ball = GameObject.FindObjectOfType<Ball> ();
+
+		currentPlayer = queue.Peek ();
 	}
 	
 	// Update is called once per frame
@@ -83,5 +92,11 @@ public class ActionMaster : MonoBehaviour {
 		string queueString = queue.printQueue();
 		queueText.text = queueString;
 		actionText.text = actionString;
+
+
+		if (ball.checkRolling () == false) {
+			playerString = queue.Peek().getName() + "'s turn. Drag ball forward to launch";
+		}
+		playerText.text = playerString;
 	}
 }

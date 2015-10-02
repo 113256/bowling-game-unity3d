@@ -15,6 +15,10 @@ public class Ball : MonoBehaviour {
 		rolling = false;
 	}
 
+	public bool checkRolling(){
+		return rolling;
+	}
+
 	// Use this for initialization
 	void Start () {
 		ballRigidBody = this.GetComponent<Rigidbody> ();
@@ -52,6 +56,7 @@ public class Ball : MonoBehaviour {
 			ballRigidBody.velocity = velocity;
 			audioSource.Play ();
 			rolling = true;
+			actionMaster.setActionString("Ball rolling");
 		}
 	}
 	
@@ -63,6 +68,7 @@ public class Ball : MonoBehaviour {
 				//ball fell, no pits hit
 				ActionMaster.Action pinSetterAction = actionMaster.Bowl(0);
 				if (pinSetterAction .Equals( ActionMaster.Action.Reset)) {
+					actionMaster.setActionString("Resetting pins");
 					pinSetter.anim.SetTrigger("ResetTrigger");
 				} else if (pinSetterAction .Equals( ActionMaster.Action.Tidy)) {
 					//dont need to tidy since no pins hit

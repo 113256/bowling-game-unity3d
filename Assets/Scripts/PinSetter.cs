@@ -59,7 +59,7 @@ public class PinSetter : MonoBehaviour {
 	}
 
 	void renewPins(){
-		print ("renewing");
+		//print ("renewing");
 		GameObject pins = Instantiate (fullPinSetup) as GameObject;
 		//pins.transform.name = "Pins";
 		Pin[] allChildPins = pins.GetComponentsInChildren<Pin> ();
@@ -107,8 +107,10 @@ public class PinSetter : MonoBehaviour {
 		ActionMaster.Action pinSetterAction = actionMaster.Bowl (10 - standingPins);
 
 		if (pinSetterAction .Equals( ActionMaster.Action.Reset)) {
+			actionMaster.setActionString("Resetting pins");
 			anim.SetTrigger("ResetTrigger");
 		} else if (pinSetterAction .Equals( ActionMaster.Action.Tidy)) {
+			actionMaster.setActionString("Tidying pins");
 			anim.SetTrigger("TidyTrigger");
 		} 
 
