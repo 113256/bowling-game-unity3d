@@ -88,6 +88,10 @@ public class PinSetter : MonoBehaviour {
 			checkStanding ();
 		}
 
+		if (ballEntered) {
+			actionMaster.resetTimer();
+		}
+
 		standingpinsText.text = standingPins.ToString();
 	
 

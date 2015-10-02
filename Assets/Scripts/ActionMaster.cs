@@ -32,12 +32,36 @@ public class ActionMaster : MonoBehaviour {
 
 	private Ball ball;
 
+	private float startTime;
+	private bool timerStarted;
+	public Text timerText;
+	//private int timeDifference;
+
+
+
+	public void startTimer(){
+		timerStarted = true;
+		startTime = Time.time;
+	}
+
+	public float getStartTime(){
+		return startTime;
+	}
+
+	public void resetTimer(){
+		timerStarted = false;
+	}
+
+
+
 	public void setActionString(string astring){
 		actionString = astring;
 	}
 
 	public Action Bowl(int pins){
-		 currentPlayer = queue.Peek();
+		currentPlayer = queue.Peek();
+		int actionNo = 0;//1 = tidy, 2 = reset...
+
 		print ("bowl");
 		if (pins < 10 && pins >= 0) {
 			if(currentPlayer.getChance().Equals( Player.Chance.firstChance)){
@@ -46,7 +70,8 @@ public class ActionMaster : MonoBehaviour {
 				currentPlayer.addScore(firstChanceScore);
 				//tidy and player gets second chance
 				currentPlayer.setChance(2);
-				return Action.Tidy;
+				actionNo = 1;//tidy
+
 			} else if (currentPlayer.getChance().Equals( Player.Chance.secondChance)){
 				print ("second chance");
 				secondChanceScore = (pins >= firstChanceScore) ? (pins - firstChanceScore) : (firstChanceScore- pins);
@@ -59,7 +84,8 @@ public class ActionMaster : MonoBehaviour {
 				queue.Dequeue();
 				queue.Enqueue(currentPlayer);
 
-				return Action.Reset;
+
+				actionNo = 2;//reset
 			}
 		} 
 
@@ -69,9 +95,21 @@ public class ActionMaster : MonoBehaviour {
 				currentPlayer.setScore(10);
 				queue.Dequeue();
 				queue.Enqueue(currentPlayer);
-				return Action.Reset;
+				actionNo = 2;//reset
 			}
 		}
+
+		print ("resettimer");
+		resetTimer();
+
+		switch (actionNo) {
+		case 1:
+			return Action.Tidy;
+			break;
+		case 2:
+			return Action.Reset;
+		}
+
 		return Action.Tidy;
 	}
 
@@ -98,5 +136,29 @@ public class ActionMaster : MonoBehaviour {
 			playerString = queue.Peek().getName() + "'s turn. Drag ball forward to launch";
 		}
 		playerText.text = playerString;
+	
+		if (timerStarted) {
+			timerText.text = "Ball must enter pin area before timer reaches 6: "+((int)(Time.time - startTime)).ToString();
+			if ((Time.time - startTime) >= 6f) {
+				Action pinSetterAction = Bowl(0);
+				if (pinSetterAction .Equals( Action.Reset)) {
+					setActionString("Resetting pins");
+					pinsetter.anim.SetTrigger("ResetTrigger");
+				} else if (pinSetterAction .Equals( ActionMaster.Action.Tidy)) {
+					//dont need to tidy since no pins hit
+					//pinSetter.anim.SetTrigger("TidyTrigger");
+				} 
+				//if ball fell on 1st chance, enable launch on 2nd chance
+				if(queue.Peek().getChance().Equals(Player.Chance.secondChance)){
+					ball.notRolling();
+				}
+				ball.ResetBall();
+				timerStarted = false;
+			}
+		}
+	}
+
+	public float timeDifference(){
+		return Time.time - startTime;
 	}
 }

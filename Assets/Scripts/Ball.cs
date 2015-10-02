@@ -15,6 +15,8 @@ public class Ball : MonoBehaviour {
 		rolling = false;
 	}
 
+
+
 	public bool checkRolling(){
 		return rolling;
 	}
@@ -57,6 +59,8 @@ public class Ball : MonoBehaviour {
 			audioSource.Play ();
 			rolling = true;
 			actionMaster.setActionString("Ball rolling");
+
+			actionMaster.startTimer();
 		}
 	}
 	
