@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PinSetter : MonoBehaviour {
 
-	public int standingPins = 10;
+	private int standingPins = 10;
 	public Text standingpinsText;
 	public bool ballEntered = false;
 	//private bool AllSettled = true;
@@ -72,14 +72,14 @@ public class PinSetter : MonoBehaviour {
 			pin.anim.SetTrigger("RenewFall");
 
 		}
-		//Destroy (pins);
-
+		standingPins = 10;
 	}
 
 	void lowerPins(){
 		foreach (Pin pin in GameObject.FindObjectsOfType<Pin>()) {
 			pin.anim.SetTrigger("Lowered");
 		}
+		ball.notRolling ();
 	}
 
 	// Update is called once per frame
@@ -115,6 +115,10 @@ public class PinSetter : MonoBehaviour {
 		ball.ResetBall ();
 
 
+	}
+
+	public int getStandingPins (){
+		return standingPins;
 	}
 
 	void checkStanding(){

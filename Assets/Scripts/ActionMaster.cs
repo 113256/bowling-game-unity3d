@@ -15,15 +15,23 @@ public class ActionMaster : MonoBehaviour {
 	Player player1 = new Player ("player1");
 	Player player2 = new Player ("player2");
 	Player player3 = new Player ("player3");
-
-	PlayerQueue queue =new PlayerQueue();
+	//public so that ACtionMAsterTest.cs can access
+	public PlayerQueue queue =new PlayerQueue();
 
 	public Text queueText;
 	private int firstChanceScore;
 	private int secondChanceScore;
 
+	private Player currentPlayer;
+	public Text actionText;
+	private string actionString;
+
+	public void setActionString(string string){
+		actionString = string;
+	}
+
 	public Action Bowl(int pins){
-		Player currentPlayer = queue.Peek();
+		 currentPlayer = queue.Peek();
 		print ("bowl");
 		if (pins < 10 && pins >= 0) {
 			if(currentPlayer.getChance().Equals( Player.Chance.firstChance)){
@@ -38,7 +46,7 @@ public class ActionMaster : MonoBehaviour {
 				secondChanceScore = (pins >= firstChanceScore) ? (pins - firstChanceScore) : (firstChanceScore- pins);
 				currentPlayer.addScore(secondChanceScore);
 				currentPlayer.setChance(1);
-				if(pinsetter.standingPins == 0){
+				if(pinsetter.getStandingPins () == 0){
 					print ("SPARE");
 				}
 
@@ -53,6 +61,8 @@ public class ActionMaster : MonoBehaviour {
 			if(currentPlayer.getChance().Equals(Player.Chance.firstChance)){
 				print ("STRIKE");
 				currentPlayer.setScore(10);
+				queue.Dequeue();
+				queue.Enqueue(currentPlayer);
 				return Action.Reset;
 			}
 		}
@@ -72,5 +82,6 @@ public class ActionMaster : MonoBehaviour {
 	void Update () {
 		string queueString = queue.printQueue();
 		queueText.text = queueString;
+		actionText.text = actionString;
 	}
 }

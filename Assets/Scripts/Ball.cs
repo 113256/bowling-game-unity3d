@@ -11,6 +11,10 @@ public class Ball : MonoBehaviour {
 	private ActionMaster actionMaster;
 	private PinSetter pinSetter;
 
+	public void notRolling(){
+		rolling = false;
+	}
+
 	// Use this for initialization
 	void Start () {
 		ballRigidBody = this.GetComponent<Rigidbody> ();
@@ -43,10 +47,12 @@ public class Ball : MonoBehaviour {
 	}
 
 	public void Launch(Vector3 velocity){
-		ballRigidBody.useGravity = true;
-		ballRigidBody.velocity = velocity;
-		audioSource.Play ();
-		rolling = true;
+		if (!rolling) {
+			ballRigidBody.useGravity = true;
+			ballRigidBody.velocity = velocity;
+			audioSource.Play ();
+			rolling = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -62,6 +68,9 @@ public class Ball : MonoBehaviour {
 					//dont need to tidy since no pins hit
 					//pinSetter.anim.SetTrigger("TidyTrigger");
 				} 
+				//if ball fell on 1st chance, enable launch on 2nd chance
+				if(actionMaster.queue.Peek().getChance().Equals(Player.Chance.secondChance)){
+					rolling = false;}
 				ResetBall();
 
 			}
