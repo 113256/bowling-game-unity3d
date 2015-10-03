@@ -61,6 +61,7 @@ public class Ball : MonoBehaviour {
 			actionMaster.setActionString("Ball rolling");
 
 			actionMaster.startTimer();
+			pinSetter.setPreviousStandingPinNo();
 		}
 	}
 	

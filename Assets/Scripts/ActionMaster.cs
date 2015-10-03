@@ -19,8 +19,7 @@ public class ActionMaster : MonoBehaviour {
 	public PlayerQueue queue =new PlayerQueue();
 
 	public Text queueText;
-	private int firstChanceScore;
-	private int secondChanceScore;
+
 
 	private Player currentPlayer;
 
@@ -66,16 +65,15 @@ public class ActionMaster : MonoBehaviour {
 		if (pins < 10 && pins >= 0) {
 			if(currentPlayer.getChance().Equals( Player.Chance.firstChance)){
 				print ("first chance");
-				firstChanceScore = pins;
-				currentPlayer.addScore(firstChanceScore);
+
+				currentPlayer.addScore(pins);
 				//tidy and player gets second chance
 				currentPlayer.setChance(2);
 				actionNo = 1;//tidy
 
 			} else if (currentPlayer.getChance().Equals( Player.Chance.secondChance)){
 				print ("second chance");
-				secondChanceScore = (pins >= firstChanceScore) ? (pins - firstChanceScore) : (firstChanceScore- pins);
-				currentPlayer.addScore(secondChanceScore);
+				currentPlayer.addScore(pins);
 				currentPlayer.setChance(1);
 				if(pinsetter.getStandingPins () == 0){
 					print ("SPARE");
@@ -109,7 +107,7 @@ public class ActionMaster : MonoBehaviour {
 		case 2:
 			return Action.Reset;
 		}
-
+		print ("error");
 		return Action.Tidy;
 	}
 

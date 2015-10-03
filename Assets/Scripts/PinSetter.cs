@@ -26,7 +26,11 @@ public class PinSetter : MonoBehaviour {
 	private ActionMaster actionMaster;
 	private Ball ball;
 	public bool pinsSettled = false;
+	private int previousStandingPinNo;
 
+	public void setPreviousStandingPinNo(){
+		previousStandingPinNo = countStanding ();
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -56,6 +60,10 @@ public class PinSetter : MonoBehaviour {
 		foreach (Pin pin in GameObject.FindObjectsOfType<Pin>()) {
 			Destroy(pin);
 		}
+	}
+
+	void allowLaunch(){
+		ball.notRolling ();
 	}
 
 	void renewPins(){
@@ -105,10 +113,11 @@ public class PinSetter : MonoBehaviour {
 	}
 
 	private void pinsHaveSettled(){
+		print ("settled");
 		pinsSettled = true;
 		standingpinsText.color = Color.green;
 
-		ActionMaster.Action pinSetterAction = actionMaster.Bowl (10 - standingPins);
+		ActionMaster.Action pinSetterAction = actionMaster.Bowl (previousStandingPinNo - standingPins);
 
 		if (pinSetterAction .Equals( ActionMaster.Action.Reset)) {
 			actionMaster.setActionString("Resetting pins");
